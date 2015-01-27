@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+  <title>ngBuild</title>
+</head>
+<body>
+  <todo-app>Loading...</todo-app>
+  <!-- loading es6-module-loader.js shims promises, so it has to come before zone.js -->
+  <script src="/deps/traceur.js"></script>
+  <script src="/deps/system.js"></script>
+
+  <script src="/deps/zone.js"></script>
+  <script src="/deps/long-stack-trace-zone.js"></script>
+
+  <script src="/deps/rtts_assert.js"></script>
+
+  <script>
+    System.paths = {
+      'angular/*': 'ng/angular/lib/*.js',
+      'core/*': 'ng/core/lib/*.js',
+      'change_detection/*': 'ng/change_detection/lib/*.js',
+      'facade/*': 'ng/facade/lib/*.js',
+      'di/*': 'ng/di/lib/*.js',
+      'directives/*': 'ng/directives/lib/*.js',
+      'rtts_assert/*': 'ng/rtts_assert/lib/*.js',
+      'reflection/*': 'ng/reflection/lib/*.js',
+      'firebase/*': 'deps/firebase/*.js',
+      'hello': 'hello.js'
+    };
+
+    // none of those work, hack traceur.js Options object instead.
+
+    // $traceurRuntime.options.types = true;
+    // $traceurRuntime.options.annotations = true;
+    // $traceurRuntime.options.memberVariables = true;
+    // $traceurRuntime.options.typeAssertionModule = 'rtts_assert/rtts_assert';
+    // $traceurRuntime.options.typeAssertion = true;
+    // traceur.options.types = true;
+    // traceur.options.annotations = true;
+    // traceur.options.memberVariables = true;
+    // System.traceurOptions.types = true;
+    // System.traceurOptions.annotations = true;
+    // System.traceurOptions.memberVariables = true;
+
+    System.import('hello').then(function(module) {
+      module.main();
+    }, console.log.bind(console));
+  </script>
+  </body>
+</html>
