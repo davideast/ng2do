@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>ngBuild</title>
+  <title>ng2do</title>
 </head>
 <body>
   <todo-app>Loading...</todo-app>
@@ -25,7 +25,7 @@
       'rtts_assert/*': 'ng/rtts_assert/lib/*.js',
       'reflection/*': 'ng/reflection/lib/*.js',
       'firebase/*': 'deps/firebase/*.js',
-      'hello': 'hello.js'
+      'todo': 'todo.js'
     };
 
     // none of those work, hack traceur.js Options object instead.
@@ -42,7 +42,7 @@
     // System.traceurOptions.annotations = true;
     // System.traceurOptions.memberVariables = true;
 
-    System.import('hello').then(function(module) {
+    System.import('todo').then(function(module) {
       module.main();
     }, console.log.bind(console));
   </script>
