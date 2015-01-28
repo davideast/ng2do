@@ -17,7 +17,7 @@ import {Injector} from 'di/di';
         <input type="text" (keyup)="enterTodo($event)" [value]="text">
         <button class="addButton" (click)="addTodo()">Add Todo</button>
         <hr >
-        
+
         <div template="ng-repeat #todo in todos">
 
         <!-- <div template="ng-repeat: var todo in todos; var i = index;"> -->
@@ -45,7 +45,7 @@ class TodoList {
     this.ref.on('child_added', function(snap) {
       var lifecycle = injector.get(LifeCycle);
       var todo = snap.val();
-      var fireTodo = new FireTodo(todo.title, todo.completed, snap.ref());
+      var fireTodo = new FireTodo(new Todo(todo), snap.ref());
       this.todos.push(fireTodo);
       lifecycle.tick(); // Websockets not good on zone
     }.bind(this));
@@ -57,7 +57,6 @@ class TodoList {
     }
   }
   addTodo() {
-    //this.todos.push(new Todo(this.text, false));
     this.ref.push({
       title: this.text,
       completed: false
@@ -71,25 +70,21 @@ class TodoList {
 }
 
 class Todo {
-
-  constructor(theTitle: string, isCompleted: boolean) {
-    this.title = theTitle;
-    this.completed = isCompleted;
+  constructor(todo: any) {
+    this.title = todo.title;
+    this.completed = todo.completed;
   }
 }
 
 class FireTodo extends Todo {
-  id: string;
-  ref: Firebase;
-
-  constructor(theTitle: string, isCompleted: boolean, theRef: Firebase) {
-    super(theTitle, isCompleted);
+  constructor(todo: Todo, theRef: Firebase) {
+    super(todo);
     this.ref = theRef;
     this.id = theRef.key();
   }
 
   update() {
-    this.ref.update(new Todo(this.title, this.completed));
+    this.ref.update(new Todo({title: this.title, completed: this.completed}));
   }
 
 }
