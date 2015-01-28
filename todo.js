@@ -47,8 +47,21 @@ class TodoList {
       var todo = snap.val();
       var fireTodo = new FireTodo(new Todo(todo), snap.ref());
       this.todos.push(fireTodo);
-      lifecycle.tick(); // Websockets not good on zone
+      lifecycle.tick();
     }.bind(this));
+
+    this.ref.on('child_removed', function(snap) {
+      var lifecycle = injector.get(LifeCycle);
+      var fireTodo = this.todos.find((todo) => {
+        return todo.id === snap.key();
+      });
+      var indexOfFireTodo = this.todos.indexOf(fireTodo);
+      if (indexOfFireTodo > -1) {
+        this.todos.splice(indexOfFireTodo, 1);
+      }
+      lifecycle.tick();
+    }.bind(this));
+
   }
   enterTodo($event) {
     this.text = $event.target.value;
@@ -67,6 +80,9 @@ class TodoList {
     todo.completed = !todo.completed;
     todo.update();
   }
+  deleteMe(todo) {
+    todo.remove();
+  }
 }
 
 class Todo {
@@ -81,10 +97,22 @@ class FireTodo extends Todo {
     super(todo);
     this.ref = theRef;
     this.id = theRef.key();
+
+    // listen to any value changes on the model
+    this.ref.on('value', function(snap) {
+      var todoValue = snap.val();
+      this.title = todoValue.title;
+      this.completed = todoValue.completed;
+    }.bind(this));
+
   }
 
   update() {
     this.ref.update(new Todo({title: this.title, completed: this.completed}));
+  }
+
+  remove() {
+    this.ref.remove();
   }
 
 }
