@@ -30,7 +30,7 @@ import {Injector} from 'di/di';
         -o-appearance: none;
         appearance: none;
       }
-      
+
       button,
       input[type="checkbox"] {
         outline: none;
@@ -552,11 +552,38 @@ import {Injector} from 'di/di';
       }
       </style>
 
+      <!--
+
+        <todo-app>
+
+          <todo-header>
+            <todo-input>
+
+            </todo-input>
+          </todo-header>
+
+          <todo-main>
+            <todo-list>
+
+            </todo-list>
+          </todo-main>
+
+          <todo-footer>
+            <todo-filter filter="all"></todo-filter>
+            <todo-filter filter="selected"></todo-filter>
+            <todo-filter filter="completed"></todo-filter>
+          </todo-footer>
+
+        </todo-app>
+
+      -->
+
       <section id="todoapp">
 
         <header id="header">
           <h1>todos</h1>
-          <input id="new-todo" placeholder="What needs to be done?" autofocus (keyup)="enterTodo($event)" [value]="text">
+          <input id="new-todo" placeholder="What needs to be done?"
+                 autofocus (keyup)="enterTodo($event)" [value]="text">
         </header>
 
         <section id="main">
@@ -597,28 +624,12 @@ import {Injector} from 'di/di';
         <p>Created by <a href="http://twitter.com/_davideast">David East</a></p>
       </footer>
 
-      <!--
-      <div class="todo-container">
-        <input type="text" (keyup)="enterTodo($event)" [value]="text">
-        <button class="addButton" (click)="addTodo()">Add Todo</button>
-        <hr >
-
-        <div template="ng-repeat #todo in todos">
-
-      {{todo.title}}
-
-        <input type="checkbox" (click)="completeMe(todo)" [checked]="todo.completed">
-        <button (click)="deleteMe(todo)">Delete</button>
-
-        </div>
-      </div> -->
-
       <!-- <div template="ng-repeat: var todo in todos; var i = index;"> -->
     `,
     directives: [ng.NgRepeat]
   })
 })
-class TodoList {
+class TodoApp {
   todos: Array;
   text: string;
   ref: Firebase;
@@ -728,6 +739,25 @@ var TodoReferences = {
   }
 };
 
+@ng.Component({
+  selector: 'todo-header',
+  template: new ng.TemplateConfig({
+    inline: `
+    <header id="header">
+      <h1>todos</h1>
+      <input id="new-todo" placeholder="What needs to be done?" autofocus (keyup)="enterTodo($event)" [value]="text">
+    </header>
+    `
+  })
+})
+class TodoHeader {
+  onEnter: any;
+
+  constructor(enterCallback: any) {
+    this.onEnter = this.enterCallback;
+  }
+}
+
 export function main() {
-  ng.bootstrap(TodoList);
+  ng.bootstrap(TodoApp);
 }
