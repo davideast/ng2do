@@ -6,7 +6,7 @@ import {Injector, Inject, bind} from 'di/di';
 @ng.Component({
     selector: 'todo-app',
     componentServices: [
-      FirebaseArray,
+      $Firebase,
       bind(Firebase).toValue(new Firebase('https://webapi.firebaseio.com/test'))
     ],
     template: new ng.TemplateConfig({
@@ -27,12 +27,15 @@ import {Injector, Inject, bind} from 'di/di';
           <label for="toggle-all">Mark all as complete</label>
 
           <ul id="todo-list">
-            <li template="ng-repeat #todo in todos">
+            <li template="ng-repeat #todo in todoService.list">
               <div class="view">
                 <input class="toggle" type="checkbox" (click)="completeMe(todo)" [checked]="todo.completed">
-                <label editable>{{todo.title}}</label>
+                <label (dblclick)="editTodo($event, todo)">{{todo.title}}</label>
                 <button class="destroy" (click)="deleteMe(todo)"></button>
               </div>
+              <form (submit)="saveEdits(todo, 'submit')">
+                <input class="edit">
+              </form>
             </li>
           </ul>
 
@@ -51,7 +54,7 @@ import {Injector, Inject, bind} from 'di/di';
               <a href="#/completed">Completed</a>
             </li>
           </ul>
-          <button id="clear-completed">Clear completed</button>
+          <button id="clear-completed" (click)="clearCompleted()">Clear completed</button>
         </footer>
       </section>
 
@@ -63,17 +66,15 @@ import {Injector, Inject, bind} from 'di/di';
 
       <!-- <div template="ng-repeat: var todo in todos; var i = index;"> -->
     `,
-    directives: [ng.NgRepeat, DatePicker, Editable]
+    directives: [ng.NgRepeat]
   })
 })
 class TodoApp {
-  todos: Array;
   text: string;
-  firebaseArray: FirebaseArray;
+  todoService: FirebaseArray;
 
-  constructor(firebaseArray: FirebaseArray) {
-    this.firebaseArray = firebaseArray;
-    this.todos = firebaseArray.list;
+  constructor($firebase: $Firebase) {
+    this.todoService = $firebase.asArray();
     this.text = '';
   }
   enterTodo($event) {
@@ -82,8 +83,11 @@ class TodoApp {
       this.addTodo();
     }
   }
+  editTodo($event, todo) {
+    debugger;
+  }
   addTodo() {
-    this.firebaseArray.add({
+    this.todoService.add({
       title: this.text,
       completed: false
     });
@@ -91,120 +95,59 @@ class TodoApp {
   }
   completeMe(todo) {
     todo.completed = !todo.completed;
-    this.firebaseArray.save(todo);
+    this.todoService.save(todo);
   }
   deleteMe(todo) {
-    this.firebaseArray.remove(todo);
+    this.todoService.remove(todo);
   }
-}
-
-@ng.Component({
-  selector: 'editable-label'
-})
-class EditableLabel {
-  
+  clearCompleted() {
+    this.todoService.list.forEach(function(todo) {
+      if(todo.completed) {
+        this.todoService.remove(todo);
+      }
+    }.bind(this));
+  }
 }
 
 @ng.Decorator({
-  selector: '[editable]'
+  selector: '[todo-focus]'
 })
-class Editable {
-  constructor(el: ng.NgElement) {
-    var domElement = el.domElement;
-    domElement.addEventListener('dblclick', function(e) {
-      debugger;
-    });
-  }
-}
+class TodoFocus {
 
-class ITodo {
-  static assert(todo) {
-    return todo && todo.hasOwnProperty('title') && todo.hasOwnProperty('completed');
-  }
-}
-
-class Todo {
-  constructor(todo: ITodo) {
-    this.title = todo.title;
-    this.completed = todo.completed;
-  }
-}
-
-class FireTodo extends Todo {
-  constructor(todo: ITodo, theRef: Firebase) {
-    super(todo);
-    this.ref = theRef;
-    this.id = theRef.key();
-
-    // listen to any value changes on the model
-    this.ref.on('value', function(snap) {
-      var todoValue = snap.val();
-      if(this.isValidTodo(todoValue)) {
-        this.title = todoValue.title;
-        this.completed = todoValue.completed;
-      }
-    }.bind(this));
-
-  }
-
-  isValidTodo(todo) {
-    return todo && todo.title && todo.completed;
-  }
-
-  update() {
-    this.ref.update(new Todo({title: this.title, completed: this.completed}));
-  }
-
-  remove() {
-    this.ref.remove();
-  }
-
-}
-
-var TodoReferences = {
-  all: () => {
-    return new Firebase('https://webapi.firebaseio.com/test');
-  },
-  completed: () => {
-    return new Firebase('https://webapi.firebaseio.com/test');
-  }
-};
-
-@ng.Component({
-  selector: 'stats',
-  bind: {
-    size: 'numCompleted'
-  },
-  template: new ng.TemplateConfig({
-    inline: `
-      A: {{numCompleted}}
-    `
-  })
-})
-class Stats {
-    numCompleted: number;
-
-    constructor() {
-
-    }
-}
-
-
-@ng.Component({
-  selector: 'date-picker',
-  template: new ng.TemplateConfig({
-    inline: `{{selected}}`
-  }),
-  bind: {
-    selected: 'selected'
-  }
-})
-class DatePicker {
-  selected: string;
 }
 
 export function main() {
   ng.bootstrap(TodoApp);
+}
+
+@Inject()
+class TodoService {
+  constructor(ref: Firebase) {
+    this.todos = [];
+
+  }
+  add(){
+
+  }
+  save(){
+
+  }
+  remove(){
+
+  }
+}
+
+@Inject()
+class $Firebase {
+  ref: Firebase;
+  injector: Injector;
+  constructor(ref: Firebase, injector: Injector) {
+    this.ref = ref;
+    this.injector = injector;
+  }
+  asArray() {
+    return new FirebaseArray(this.ref, this.injector);
+  }
 }
 
 /*
