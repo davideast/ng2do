@@ -1,6 +1,6 @@
 # Angular 2 Todo App
 
-Angular 2 is not packaged or ready for production.
+Angular 2 is not packaged or ready for production... but this is a todo app with it.
 
 ### Installation
 
