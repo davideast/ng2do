@@ -1,16 +1,11 @@
-import {LifeCycle} from 'core/life_cycle/life_cycle';
-import {Injector, Inject, bind} from 'di/di';
 
-@Inject()
-class $Firebase {
+export class AngularFire {
   ref: Firebase;
-  injector: Injector;
-  constructor(ref: Firebase, injector: Injector) {
+  constructor(ref: Firebase) {
     this.ref = ref;
-    this.injector = injector;
   }
   asArray() {
-    return new FirebaseArray(this.ref, this.injector);
+    return new FirebaseArray(this.ref);
   }
 }
 
@@ -18,17 +13,16 @@ class $Firebase {
 FirebaseArray
 
 */
-@Inject()
-class FirebaseArray {
+
+export class FirebaseArray {
   ref: Firebase;
   error: any;
   list: Array;
   injector: Injector;
 
-  constructor(ref: Firebase, injector: Injector) {
+  constructor(ref: Firebase) {
     this.ref = ref;
     this.list = [];
-    this.injector = injector;
 
     // listen for changes at the Firebase instance
     this.ref.on('child_added', this.created.bind(this), this.error);
@@ -67,10 +61,6 @@ class FirebaseArray {
     this.getChild(recOrIndex).update(item);
   }
 
-  lifecycleTick() {
-    this.injector.get(LifeCycle).tick();
-  }
-
   keyify(snap) {
     var item = snap.val();
     item._key = snap.key();
@@ -80,26 +70,26 @@ class FirebaseArray {
   created(snap) {
     var addedValue = this.keyify(snap);
     this.list.push(addedValue);
-    this.lifecycleTick();
   }
 
   moved(snap) {
     var key = snap.key();
     this.spliceOut(key);
-    this.lifecycleTick();
   }
 
   updated(snap) {
     var key = snap.key();
     var indexToUpdate = this.indexFor(key);
     this.list[indexToUpdate] = this.keyify(snap);
-    this.lifecycleTick();
   }
 
   removed(snap) {
     var key = snap.key();
     this.spliceOut(key);
-    this.lifecycleTick();
+  }
+
+  bulkUpdate(items) {
+    this.ref.update(items);
   }
 
   spliceOut(key) {

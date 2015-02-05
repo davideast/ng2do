@@ -19,4 +19,4 @@ Angular 2 is not packaged or ready for production... but this is a todo app with
 ### Hacks
 Due to bug in system.js and traceur integration, options are not picked up,
 (TODO:rado file a bug and put a link here). To support atscript, we manually
-editted the atscript flags in `traceur.js` (see `index.html` for the names of the flags.)
+edited the atscript flags in `traceur.js` (see `index.html` for the names of the flags.)
