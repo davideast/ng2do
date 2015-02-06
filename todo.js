@@ -3,80 +3,25 @@ import {Injector, Inject, bind} from 'di/di';
 import {AngularFire, FirebaseArray} from 'firebase/AngularFire';
 
 @ng.Component({
-    selector: 'todo-app',
-    componentServices: [
-      AngularFire,
-      bind(Firebase).toValue(new Firebase('https://webapi.firebaseio.com/test'))
-    ],
-    template: new ng.TemplateConfig({
-      inline: `
-
-      <style>@import "/deps/css/base.css";</style>
-
-      <section id="todoapp">
-
-        <header id="header">
-          <h1>todos</h1>
-          <input id="new-todo" placeholder="What needs to be done?"
-                 autofocus (keyup)="enterTodo($event)" [value]="text">
-        </header>
-
-        <section id="main">
-          <input id="toggle-all" type="checkbox" (click)="toggleAll($event)">
-          <label for="toggle-all">Mark all as complete</label>
-
-          <ul id="todo-list">
-            <li template="ng-repeat #todo in todoService.list">
-              <div [style]="todoStyle" class="view">
-                <input class="toggle" type="checkbox" (click)="completeMe(todo)" [checked]="todo.completed">
-                <label (dblclick)="editTodo($event, todo)">{{todo.title}}</label>
-                <button class="destroy" (click)="deleteMe(todo)"></button>
-              </div>
-              <form (submit)="saveEdits(todo, 'submit')" [hidden]="todo != editTodo"> <!-- !== breaks here -->
-                <input class="edit">
-              </form>
-            </li>
-          </ul>
-
-        </section>
-
-        <footer id="footer">
-          <span id="todo-count"></span>
-          <ul id="filters">
-            <li>
-              <a href="#/" class="selected">All</a>
-            </li>
-            <li>
-              <a href="#/active">Active</a>
-            </li>
-            <li>
-              <a href="#/completed">Completed</a>
-            </li>
-          </ul>
-          <button id="clear-completed" (click)="clearCompleted()">Clear completed</button>
-        </footer>
-      </section>
-
-      <footer id="info">
-        <p>Double-click to edit a todo</p>
-        <p>Created by <a href="http://twitter.com/_davideast">David East</a></p>
-      </footer>
-
-    `,
+  selector: 'todo-app',
+  componentServices: [
+    AngularFire,
+    bind(Firebase).toValue(new Firebase('https://webapi.firebaseio.com/test'))
+  ],
+  template: new ng.TemplateConfig({
+    url: '/todo.html',
     directives: [ng.NgRepeat]
   })
 })
 class TodoApp {
   text: string;
   todoService: FirebaseArray;
-  todoStyle: any;
   todoEdit: any;
 
   constructor(sync: AngularFire) {
     this.todoService = sync.asArray();
     this.text = '';
     this.todoEdit = null;
-    this.todoStyle = {};
   }
   enterTodo($event) {
     this.text = $event.target.value;
@@ -86,9 +31,18 @@ class TodoApp {
   }
   editTodo($event, todo) {
     this.todoEdit = todo;
-    this.todoStyle = {
-      display: 'none'
-    };
+  }
+  doneEditing($event, todo) {
+    var which = $event.which;
+    var target = $event.target;
+    if(which === 13) {
+      todo.title = target.value;
+      this.todoService.save(todo);
+      this.todoEdit = null;
+    } else if (which === 27) {
+      this.todoEdit = null;
+      target.value = todo.title;
+    }
   }
   addTodo() {
     this.todoService.add({

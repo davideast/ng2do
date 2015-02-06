@@ -38,16 +38,9 @@
 
   <script>
     System.paths = {
-      'angular/*': 'ng/angular/lib/*.js',
-      'core/*': 'ng/core/lib/*.js',
-      'change_detection/*': 'ng/change_detection/lib/*.js',
-      'facade/*': 'ng/facade/lib/*.js',
-      'di/*': 'ng/di/lib/*.js',
-      'directives/*': 'ng/directives/lib/*.js',
-      'rtts_assert/*': 'ng/rtts_assert/lib/*.js',
-      'reflection/*': 'ng/reflection/lib/*.js',
-      'firebase/*': 'deps/firebase/*.js',
-      'todo': 'todo.js'
+      '*':'ng/*.js',
+      'todo': 'todo.js',
+      'firebase/AngularFire': 'deps/firebase/AngularFire.js'
     };
 
     // none of those work, hack traceur.js Options object instead.
