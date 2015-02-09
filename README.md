@@ -24,6 +24,9 @@ Due to bug in system.js and traceur integration, options are not picked up,
 (TODO:rado file a bug and put a link here). To support atscript, we manually
 edited the atscript flags in `traceur.js` (see `index.html` for the names of the flags.)
 
+
+### License
+
 The MIT License (MIT)
 
 Copyright (c) David East
