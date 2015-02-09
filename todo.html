@@ -1,84 +1,58 @@
-<!-- TODOL refactor into more components -->
 <style>@import "/deps/css/base.css";</style>
-<style>
-  /* really annoying without this*/
-  .no_selection {
-    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
-    -moz-user-select: none; /* mozilla browsers */
-    -khtml-user-select: none; /* webkit (konqueror) browsers */
-    -ms-user-select: none; /* IE10+ */
-  }
-</style>
+
 <section id="todoapp">
 
   <header id="header">
     <h1>todos</h1>
-    <input id="new-todo"
-      placeholder="What needs to be done?"
-      (keyup)="enterTodo($event)"
-      [value]="text"
-      autofocus
-    >
+    <input id="new-todo" placeholder="What needs to be done?"
+    autofocus (keyup)="enterTodo($event)" [value]="text">
   </header>
 
-  <section id="main" [ng-show]="todoService.list.length > 0">
-    <input id="toggle-all" type="checkbox"
-      (click)="toggleAll($event)"
-      [checked]="remainingCount == 0"
-    >
+  <section id="main">
+    <input id="toggle-all" type="checkbox" (click)="toggleAll($event)">
     <label for="toggle-all">Mark all as complete</label>
 
-    <ul id="todo-list" class="no_selection">
-      <li !foreach="#todo in todoService.list"
-        [class.editing]="todoEdit == todo"
-        [class.completed]="todo.completed"
-      >
+    <!-- <div !ng-repeat="#todo in todoService.list">
+
+    </div> -->
+
+    <!-- <template ng-repeat def-todo [in]="todos">
+      <div mydec>
+        {{todo}}
+      </div>
+    </template> -->
+
+    <ul id="todo-list">
+      <li !ng-repeat="#todo in todoService.list">
         <div class="view" [class.hidden]="todoEdit == todo">
-          <input class="toggle" type="checkbox"
-            (click)="completeMe(todo)"
-            [checked]="todo.completed">
-          <label
-            (dblclick)="editTodo($event, todo)"
-          >{{ todo.title }}</label>
-          <button class="destroy"
-            (click)="deleteMe(todo)"
-          ></button>
+          <input class="toggle" type="checkbox" (click)="completeMe(todo)" [checked]="todo.completed">
+          <label (dblclick)="editTodo($event, todo)">{{todo.title}}</label>
+          <button class="destroy" (click)="deleteMe(todo)"></button>
         </div>
         <div>
-          <input class="edit"
-
-            [class.visible]="todoEdit == todo"
-            [todo-focus]="todoEdit == todo"
-            [value]="todo.title"
-            (keyup)="doneEditing($event, todo)"
-          >
+          <input class="edit" [class.visible]="todoEdit == todo" [value]="todo.title"
+            (keyup)="doneEditing($event, todo)">
         </div>
       </li>
     </ul>
 
   </section>
 
-  <footer id="footer" [ng-show]="todoService.list.length > 0">
-    <span id="todo-count">
-      <strong>{{ remainingCount }}</strong>
-      items left
-    </span>
+  <footer id="footer">
+    <span id="todo-count"></span>
     <div [class.hidden]="true"></div>
     <ul id="filters">
       <li>
-        <a href="#/" [class.selected]="locationPath == ''">All</a>
+        <a href="#/" class="selected">All</a>
       </li>
       <li>
-        <a href="#/active" [class.selected]="locationPath == 'active'">Active</a>
+        <a href="#/active">Active</a>
       </li>
       <li>
-        <a href="#/completed" [class.selected]="locationPath == 'completed'">Completed</a>
+        <a href="#/completed">Completed</a>
       </li>
     </ul>
-    <button id="clear-completed" class="hidden"
-      [class.visible]="completedCount"
-      (click)="clearCompleted()"
-    >Clear completed ({{ completedCount }})</button>
+    <button id="clear-completed" (click)="clearCompleted()">Clear completed</button>
   </footer>
 </section>
 

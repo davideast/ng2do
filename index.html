@@ -27,21 +27,18 @@
 <body>
   <todo-app>Loading...</todo-app>
   <!-- loading es6-module-loader.js shims promises, so it has to come before zone.js -->
-  <!-- <script src="/deps/es6-module-loader.js"></script> -->
   <script src="/deps/traceur.js"></script>
   <script src="/deps/system.js"></script>
 
   <script src="/deps/zone.js"></script>
   <script src="/deps/long-stack-trace-zone.js"></script>
 
-  <!-- // <script src="/deps/rtts_assert.js"></script> -->
-  <script src="/deps/ng/rtts_assert/rtts_assert.js"></script>
+  <script src="/deps/rtts_assert.js"></script>
   <script src="/deps/firebase/firebase.js"></script>
 
   <script>
     System.paths = {
-      '*':'deps/ng/*.js',
-      'di':'angular2/di',
+      '*':'ng/*.js',
       'todo': 'todo.js',
       'firebase/AngularFire': 'deps/firebase/AngularFire.js'
     };
