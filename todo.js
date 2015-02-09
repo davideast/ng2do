@@ -1,16 +1,16 @@
-import * as ng from 'angular/angular';
-import {Injector, Inject, bind} from 'di/di';
+import {Component, TemplateConfig, bootstrap, Foreach} from 'angular2/angular2';
+import {bind} from 'angular2/di';
 import {AngularFire, FirebaseArray} from 'firebase/AngularFire';
 
-@ng.Component({
+@Component({
   selector: 'todo-app',
   componentServices: [
     AngularFire,
-    bind(Firebase).toValue(new Firebase('https://webapi.firebaseio.com/test'))
+    bind(Firebase).toValue(new Firebase('https://webapi.firebaseio-demo.com/test'))
   ],
-  template: new ng.TemplateConfig({
+  template: new TemplateConfig({
     url: '/todo.html',
-    directives: [ng.NgRepeat]
+    directives: [Foreach]
   })
 })
 class TodoApp {
@@ -77,25 +77,6 @@ class TodoApp {
 
 }
 
-@ng.Decorator({
-  selector: '[todo-focus]',
-  bind: {
-    'todo-focus': 'isFocused'
-  }
-})
-class TodoFocus {
-  set isFocused(value) {
-    if(value) {
-      //
-    } else {
-      //
-    }
-  }
-  constructor(el: ng.NgElement) {
-
-  }
-}
-
 export function main() {
-  ng.bootstrap(TodoApp);
+  bootstrap(TodoApp);
 }

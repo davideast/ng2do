@@ -4,7 +4,7 @@
 
   <header id="header">
     <h1>todos</h1>
-    <input id="new-todo" placeholder="What needs to be done?"
+    <input #newTodo id="new-todo" placeholder="What needs to be done?"
     autofocus (keyup)="enterTodo($event)" [value]="text">
   </header>
 
@@ -23,7 +23,7 @@
     </template> -->
 
     <ul id="todo-list">
-      <li !ng-repeat="#todo in todoService.list">
+      <li !foreach="#todo in todoService.list">
         <div class="view" [class.hidden]="todoEdit == todo">
           <input class="toggle" type="checkbox" (click)="completeMe(todo)" [checked]="todo.completed">
           <label (dblclick)="editTodo($event, todo)">{{todo.title}}</label>
