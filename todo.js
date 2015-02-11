@@ -14,19 +14,17 @@ import {AngularFire, FirebaseArray} from 'firebase/AngularFire';
   })
 })
 class TodoApp {
-  text: string;
   todoService: FirebaseArray;
   todoEdit: any;
 
   constructor(sync: AngularFire) {
     this.todoService = sync.asArray();
-    this.text = '';
     this.todoEdit = null;
   }
-  enterTodo($event) {
-    this.text = $event.target.value;
+  enterTodo($event, newTodo) {
     if($event.which === 13) { // ENTER_KEY
-      this.addTodo();
+      this.addTodo(newTodo.value);
+      newTodo.value = '';
     }
   }
   editTodo($event, todo) {
@@ -44,12 +42,11 @@ class TodoApp {
       target.value = todo.title;
     }
   }
-  addTodo() {
+  addTodo(newTitle) {
     this.todoService.add({
-      title: this.text,
+      title: newTitle,
       completed: false
     });
-    this.text = '';
   }
   completeMe(todo) {
     todo.completed = !todo.completed;

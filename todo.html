@@ -4,35 +4,43 @@
 
   <header id="header">
     <h1>todos</h1>
-    <input #newTodo id="new-todo" placeholder="What needs to be done?"
-    autofocus (keyup)="enterTodo($event)" [value]="text">
+    <input
+      id="new-todo"
+      placeholder="What needs to be done?"
+      autofocus
+      #newtodo
+      (keyup)="enterTodo($event, newtodo)">
   </header>
 
   <section id="main">
     <input id="toggle-all" type="checkbox" (click)="toggleAll($event)">
     <label for="toggle-all">Mark all as complete</label>
 
-    <!-- <div !ng-repeat="#todo in todoService.list">
-
-    </div> -->
-
-    <!-- <template ng-repeat def-todo [in]="todos">
-      <div mydec>
-        {{todo}}
-      </div>
-    </template> -->
-
     <ul id="todo-list">
+
       <li !foreach="#todo in todoService.list">
-        <div class="view" [class.hidden]="todoEdit == todo">
-          <input class="toggle" type="checkbox" (click)="completeMe(todo)" [checked]="todo.completed">
+
+        <div class="view"
+            [class.hidden]="todoEdit == todo">
+
+          <input class="toggle" type="checkbox"
+                 (click)="completeMe(todo)"
+                 [checked]="todo.completed">
+
           <label (dblclick)="editTodo($event, todo)">{{todo.title}}</label>
           <button class="destroy" (click)="deleteMe(todo)"></button>
+
         </div>
+
         <div>
-          <input class="edit" [class.visible]="todoEdit == todo" [value]="todo.title"
+
+          <input class="edit"
+            [class.visible]="todoEdit == todo"
+            [value]="todo.title"
             (keyup)="doneEditing($event, todo)">
+
         </div>
+
       </li>
     </ul>
 
@@ -54,6 +62,7 @@
     </ul>
     <button id="clear-completed" (click)="clearCompleted()">Clear completed</button>
   </footer>
+
 </section>
 
 <footer id="info">

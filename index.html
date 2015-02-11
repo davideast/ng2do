@@ -26,6 +26,7 @@
 </head>
 <body>
   <todo-app>Loading...</todo-app>
+
   <!-- loading es6-module-loader.js shims promises, so it has to come before zone.js -->
   <script src="/deps/traceur.js"></script>
   <script src="/deps/system.js"></script>
@@ -43,21 +44,6 @@
       'todo': 'todo.js',
       'firebase/AngularFire': 'deps/firebase/AngularFire.js'
     };
-
-    // none of those work, hack traceur.js Options object instead.
-
-    // $traceurRuntime.options.types = true;
-    // $traceurRuntime.options.annotations = true;
-    // $traceurRuntime.options.memberVariables = true;
-    // $traceurRuntime.options.typeAssertionModule = 'rtts_assert/rtts_assert';
-    // $traceurRuntime.options.typeAssertion = true;
-    // traceur.options.types = true;
-    // traceur.options.annotations = true;
-    // traceur.options.memberVariables = true;
-    // System.traceurOptions.types = true;
-    // System.traceurOptions.annotations = true;
-    // System.traceurOptions.memberVariables = true;
-
     System.import('todo').then(function(module) {
       module.main();
     }, console.log.bind(console));
