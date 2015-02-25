@@ -2,12 +2,19 @@
 
 Angular 2 is not packaged or ready for production... but this is a todo app with it.
 
-### Installation
+### Prerequisite: Build Angular 2.0
 
-1. Clone angular/angular somewhere on your disk.
-2. Follow the instructions for Angular 2 and `gulp build` there.
-3. `ln -s ~/angular/dist/js/dev ng` in the root of this repo.
-4. Write your AtScript code in hello.js.
+1. Clone the [Angular Github repo](https://github.com/angular/angular/) to your computer: `git clone https://github.com/angular/angular.git`. For this example, we'll assume you've cloned Angular to your $HOME directory (~/angular).
+2. `cd ~/angular` then `sudo npm install` to install the Angular build dependencies.
+3. Next, build Angular: `gulp build`
+
+### Instructions
+
+1. Clone the ng2do repo to your computer: `git clone https://github.com/davideast/ng2do`. Again, we'll assume you're cloning to your home directory (~/ng2do).
+2. `cd ~/ng2do`
+3. Create a symlink to the angular2 es6 folder:
+ `ln -s ~/angular/dist/js/dev/es6 ng`
+4. Start a simple webserver using either python `python -m SimpleHTTPServer` or node `sudo npm install -g live-server;live-server;` and open your browser to that webserver's url.
 
 ### Static deps
 (already included in the deps folder)
