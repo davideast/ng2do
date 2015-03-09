@@ -4,7 +4,7 @@ Angular 2 is not packaged or ready for production... but this is a todo app with
 
 ### Installation
 
-1. Clone angular/angular somewhere on your disk.
+1. Clone [angular/angular](https://github.com/angular/angular) somewhere on your disk.
 2. Follow the instructions for Angular 2 and `gulp build` there.
 3. `ln -s ~/angular/dist/js/dev ng` in the root of this repo.
 4. Write your AtScript code in hello.js.
