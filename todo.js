@@ -64,8 +64,7 @@ class TodoApp {
     }.bind(this));
   }
   clearCompleted() {
-    // TODO: Something is wrong here with the iterating
-    this.todoStore.list.forEach((todo) => {
+    [].concat(this.todoStore.list).forEach((todo) => {
       if(todo.completed) {
         this.deleteMe(todo);
       }
