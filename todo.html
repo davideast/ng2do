@@ -1,4 +1,4 @@
-<style>@import "/deps/css/base.css";</style>
+<style>@import "deps/css/base.css";</style>
 
 <section id="todoapp">
 
@@ -18,7 +18,7 @@
 
     <ul id="todo-list">
 
-      <li !foreach="#todo in todoService.list">
+      <li *foreach="#todo in todos">
 
         <div class="view"
             [class.hidden]="todoEdit == todo">

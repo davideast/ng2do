@@ -27,23 +27,18 @@
 <body>
   <todo-app>Loading...</todo-app>
 
-  <!-- loading es6-module-loader.js shims promises, so it has to come before zone.js -->
-  <script src="/deps/traceur.js"></script>
-  <script src="/deps/system.js"></script>
-
-  <script src="/deps/zone.js"></script>
-  <script src="/deps/long-stack-trace-zone.js"></script>
-
-  <script src="/ng/rtts_assert/rtts_assert.js"></script>
   <script src="/deps/firebase/firebase.js"></script>
+  <script src="/quickstart/dist/es6-shim.js"></script>
 
   <script>
     System.paths = {
-      '*':'/ng/*.js',
-      'di':'angular2/di',
+      'angular2/*':'quickstart/angular2/*.js', // Angular
+      'rtts_assert/*': 'quickstart/rtts_assert/*.js', //Runtime assertions
       'todo': 'todo.js',
-      'firebase/AngularFire': 'deps/firebase/AngularFire.js'
+      'firebase/*': 'deps/firebase/*.js',
+      'services/*': 'deps/services/*.js'
     };
+
     System.import('todo').then(function(module) {
       module.main();
     }, console.log.bind(console));

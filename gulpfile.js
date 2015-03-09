@@ -4,7 +4,7 @@ var shell = require('gulp-shell');
 var open = require('gulp-open');
 var port = 3456;
 
-// Angular 2 Traceur: ES6 to ES5
+// git clone Angular 2 quickstart
 gulp.task('build:ng2', shell.task(['sh build.sh']));
 
 gulp.task('default', ['build:ng2']);

@@ -1,3 +1,4 @@
+import Firebase from 'firebase/firebase';
 
 export class AngularFire {
   ref: Firebase;
@@ -18,7 +19,6 @@ export class FirebaseArray {
   ref: Firebase;
   error: any;
   list: Array;
-  injector: Injector;
 
   constructor(ref: Firebase) {
     this.ref = ref;
@@ -68,6 +68,7 @@ export class FirebaseArray {
   }
 
   created(snap) {
+    debugger;
     var addedValue = this.keyify(snap);
     this.list.push(addedValue);
   }
