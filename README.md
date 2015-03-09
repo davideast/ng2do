@@ -4,9 +4,11 @@ Angular 2 is not packaged or ready for production... but this is a todo app with
 
 ### Installation
 
-1. `npm install`
-2. `gulp`
-3. `gulp serve`
+```bash
+npm install
+gulp
+gulp serve
+```
 
 ### How the installation works
 
