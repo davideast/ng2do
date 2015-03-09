@@ -1,4 +1,4 @@
-import {Component, TemplateConfig, bootstrap, Foreach} from 'angular2/angular2';
+import {Component, Template, bootstrap, Foreach} from 'angular2/angular2';
 import {bind} from 'angular2/di';
 import {AngularFire, FirebaseArray} from 'firebase/AngularFire';
 
@@ -7,11 +7,11 @@ import {AngularFire, FirebaseArray} from 'firebase/AngularFire';
   componentServices: [
     AngularFire,
     bind(Firebase).toValue(new Firebase('https://webapi.firebaseio-demo.com/test'))
-  ],
-  template: new TemplateConfig({
-    url: '/todo.html',
-    directives: [Foreach]
-  })
+  ]
+})
+@Template({
+  url: '/todo.html',
+  directives: [Foreach]
 })
 class TodoApp {
   todoService: FirebaseArray;
