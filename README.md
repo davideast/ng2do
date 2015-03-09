@@ -8,6 +8,10 @@ Angular 2 is not packaged or ready for production... but this is a todo app with
 2. `gulp`
 3. `gulp serve`
 
+### How the installation works
+
+The installation clones the [Angular 2 quickstart](https://github.com/angular/quickstart) which contains Angular and all of the dependencies to transpile from AtScript/TypeScript. The local .git folder for the quickstart is removed automatically.
+
 ### AngularFire?
 
 The AngularFire included in this project is not a final or working version of AngularFire for Angular 2.
