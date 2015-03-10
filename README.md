@@ -4,11 +4,9 @@ Angular 2 is not packaged or ready for production... but this is a todo app with
 
 ### Installation
 
-```bash
-npm install
-gulp
-gulp serve
-```
+`npm install`
+`./node_modules/gulp/bin/gulp.js` or `gulp` if you have gulp installed globally
+`./node_modules/gulp/bin/gulp.js serve` or `gulp serve` if you have gulp installed globally
 
 ### How the installation works
 
