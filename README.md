@@ -5,6 +5,8 @@ Angular 2 is not packaged or ready for production... but this is a todo app with
 ### Installation
 
 ```bash
+git clone https://github.com/davideast/ng2do.git
+cd ng2do
 npm install -g gulp # Not required if you already have gulp installed globally
 npm install
 gulp
