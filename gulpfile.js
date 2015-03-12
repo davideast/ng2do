@@ -11,7 +11,7 @@ gulp.task('default', ['build:ng2']);
 
 gulp.task('connect', function() {
   connect.server({
-    root: '.',
+    root: __dirname,
     port: port,
     livereload: true
   });
