@@ -9,7 +9,7 @@ import {TodoStore} from 'services/TodoStore';
   ]
 })
 @Template({
-  url: 'todo.html',
+  url: './components/todo/todo.html',
   directives: [Foreach]
 })
 class TodoApp {

@@ -25,5 +25,4 @@ gulp.task('open', function(){
   .pipe(open('', options));
 });
 
-
 gulp.task('serve', ['connect', 'open']);
